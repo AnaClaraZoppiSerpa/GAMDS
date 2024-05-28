@@ -159,6 +159,33 @@ def test_isMDS_MDS():
     assert isMDS(matrixFromAES, 1).result is None
     assert isMDS(matrixFromAES, 1).error == "invalid elements"
 
+def test_isMDS_MDS_2():
+    matrixFromAES = [[1, 1, 2, 3], [2, 3, 2, 1], [1, 2, 5, 2], [2, 1, 1, 2]]
+
+    assert isMDS(matrixFromAES, 8).result == True
+    assert isMDS(matrixFromAES, 8).error is None
+
+    assert isMDS(matrixFromAES, 1).result is None
+    assert isMDS(matrixFromAES, 1).error == "invalid elements"
+
+"""
+[[2, 3, 1, 1],
+[1, 2, 3, 1],
+[1, 1, 2, 3],
+[3, 1, 1, 2]]
+
+[[2, 3, 1, 1],
+[1, 2, 3, 1],
+[1, 1, 2, 4],
+[4, 1, 1, 3]]
+
+[[1 1 2 3]
+ [2 3 2 1]
+ [1 2 5 2]
+ [2 1 1 2]]
+
+"""
+
 def test_isMDS_nonMDS():
     nonMDS = [[2, 0, 1, 1], [1, 2, 3, 1], [1, 1, 2, 3], [3, 1, 1, 2]]
 

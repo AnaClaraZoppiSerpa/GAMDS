@@ -1,0 +1,260 @@
+inst 1:
+k1: 1000
+k2: 2000
+k3: 100
+min_mut = 0.05
+max_mut = 0.5
+  gen 756
+  custo: 75
+  [
+    1 4 2 7
+    2 3 8 1
+    1 3 5 3
+    8 1 2 2
+  ]
+
+
+  gen 855
+  custo: 70
+  [
+    1 4 2 7
+    2 3 7 1
+    1 3 5 2
+    8 1 1 2
+  ]
+
+  gen 1113
+  custo: 64
+  [
+    1 4 2 7
+    2 3 7 1
+    1 3 5 2
+    2 1 1 2
+  ]
+
+  gen 1424
+  custo: 63
+  [
+    1 4 2 6
+    2 3 7 1
+    1 3 5 2
+    2 1 1 2
+  ]
+
+  gen 1552
+  custo: 60
+  [
+    1 4 2 3
+    2 3 7 1
+    1 3 5 2
+    2 1 1 2
+  ]
+
+  gen 1564
+  custo: 55
+  [
+    1 4 2 3
+    2 3 2 1
+    1 3 5 2
+    2 1 1 2
+  ]
+
+  gen 1622
+  custo: 49
+  [
+    1 1 2 3
+    2 3 2 1
+    1 3 5 2
+    2 1 1 2
+  ]
+
+  gen 3131
+  custo: 48
+  [
+    1 1 2 3
+    2 3 2 1
+    1 2 5 2
+    2 1 1 2
+  ] #muito próxima do AES 4x4, provavelmente mínimo local que o GA não consegue escapar.
+
+inst 2:
+k1: 1000
+k2: 2000
+k3: 100
+min_mut = 0.05
+max_mut = 0.8
+  gen 402
+  custo: 68
+  [
+    4 2 1 1
+    1 10 3 2
+    2 3 1 8
+    5 1 6 1
+  ]
+
+  gen 470
+  custo: 67
+  [
+    4 2 1 1
+    1 10 3 2
+    2 3 1 7
+    5 1 6 1
+  ]
+
+  gen 523
+  custo: 60
+  [
+    4 2 1 1
+    1 7 3 2
+    2 3 1 2
+    5 1 6 1
+  ]
+
+  gen 1015
+  custo: 57
+  [
+    4 2 1 1
+    1 7 3 2
+    2 3 1 2
+    5 1 3 1
+  ]
+
+  gen 2748
+  custo: 53
+  [
+    4 2 1 1
+    1 7 3 2
+    2 3 1 2
+    3 1 2 1
+  ] #muito próxima do AES 4x4, provavelmente mínimo local que o GA não consegue escapar.
+
+inst 3:
+k1: 1000
+k2: 1000
+k3: 10
+min_mut = 0.05
+max_mut = 0.8
+  gen 250
+  custo: 91
+  [
+    3 1 8 6
+    1 4 3 5
+    4 25 4 2
+    4 5 1 1
+  ]
+
+  gen 312
+  custo: 82
+  [
+    3 1 8 6
+    1 4 2 5
+    4 4 4 2
+    4 5 1 1
+  ]
+
+  gen 380
+  custo: 79
+  [
+    2 1 5 6
+    1 4 2 5
+    4 4 4 2
+    4 5 1 1
+  ]
+
+  gen 481
+  custo: 76
+  [
+    2 1 5 6
+    1 3 2 4
+    4 4 4 2
+    4 5 1 1
+  ]
+
+  gen 848
+  custo: 72
+  [
+    2 1 5 2
+    1 3 2 4
+    4 4 4 2
+    4 5 1 1
+  ]
+
+  gen 2000
+  custo: 45
+  [
+    2 1 3 1
+    1 1 2 3
+    1 4 1 2
+    4 3 1 1
+  ]
+  # muito próxima do AES 4x4, provavelmente mínimo local que o GA não consegue escapar.
+
+inst 4:
+k1: 1000
+k2: 1000
+k3: 10
+min_mut = 0.05
+max_mut = 0.8
+diminishing mutation padrão
+
+  gen 100
+  custo: 102
+  [
+    10 12 1 16
+    1 28 40 1
+    6 1 10 2
+    7 1 1 1
+  ]
+
+
+  gen 220
+  custo: 86
+  [
+    10 12 1 2
+    1 28 30 1
+    3 1 6 2
+    7 1 1 1
+  ]
+
+  gen 220
+  custo: 79
+  [
+    10 12 1 1
+    1 28 16 1
+    3 1 6 2
+    6 1 1 1
+  ]
+
+inst 5:
+k1: 1000
+k2: 1000
+k3: 10
+min_mut = 0.05
+max_mut = 0.8
+diminishing mutation intervalo
+
+  gen 43
+  custo: 131
+  [
+    32 2 2 2
+    96 3 2 1
+    7 1 8 17
+    20 1 26 16
+  ]
+
+  gen 298
+  custo: 49
+  [
+    1 3 1 2
+    12 3 2 1
+    2 1 1 1
+    1 1 4 3
+  ]
+
+  gen 1421
+  custo: 46
+  [ 1 3 1 2
+    11 3 2 1
+    2 1 1 1
+    1 1 4 1
+  ]
