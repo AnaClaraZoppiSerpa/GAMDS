@@ -225,6 +225,16 @@ diminishing mutation padrão
     6 1 1 1
   ]
 
+  Generation  1157
+
+  Custo: 47
+  Melhor solução:
+  [[7 4 3 1]
+  [1 2 1 3]
+  [1 1 3 2]
+  [2 1 1 1]]
+
+
 inst 5:
 k1: 1000
 k2: 1000
@@ -257,4 +267,39 @@ diminishing mutation intervalo
     11 3 2 1
     2 1 1 1
     1 1 4 1
-  ]
+  ] #dei ctrl+c sem querer
+
+inst 6:
+k1: 1000
+k2: 2000
+k3: 10
+min_mut = 0.05
+max_mut = 0.8
+diminishing mutation vários intervalo
+
+
+  Generation  772
+  custo: 52
+  Melhor solução:
+  [[2 3 3 1]
+  [1 4 1 2]
+  [4 5 1 1]
+  [1 1 6 1]
+
+inst 7:
+k1: 1000
+k2: 2000
+k3: 10
+min_mut = 0.05
+max_mut = 0.3
+
+diminishing mutation vários intervalo, prob quadrada
+
+  Generation  111
+  Custo: 97
+  Melhor solução:
+  [[ 8  5  5  1]
+  [ 4  1 13  2]
+  [ 3  3 10  3]
+  [ 1  9  5  2]]
+  

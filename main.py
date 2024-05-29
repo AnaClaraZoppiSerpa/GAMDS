@@ -15,7 +15,7 @@ k2 = 2000.0
 k3 = 10.0
 FIELD_ARG = 8  
 
-max_mut = 0.8
+max_mut = 0.3
 min_mut = 0.05
 
 def generate_all_k_submatrices(A, k):
@@ -88,7 +88,7 @@ def variety_checker(population):
     
 def diminish_mutation(A):
     indexes = np.array(np.where(A>1)).T
-    n = len(indexes)
+    n = min(len(A),len(indexes))+1
     swaps = np.random.randint(1,n)
 
     selected_swaps = random.sample(list(indexes), swaps)
@@ -141,13 +141,13 @@ def genetic_algorithm(pop_size, generations, matrix_size):
 
         equal_values = variety_checker(population)
         max_equal = pop_size*matrix_size*matrix_size
-        min_equal = pop_size
-        mutation_rate = min_mut + (max_mut-min_mut)*(equal_values-min_equal)/(max_equal-min_equal)
+        min_equal = pop_size*matrix_size
+        mutation_rate = min_mut + (max_mut-min_mut)*((equal_values-min_equal)/(max_equal-min_equal))**2
         print(mutation_rate)
 
         little_bro = diminish_mutation(best_solution)
-        #little_bro = best_solution//2
-        #little_bro[little_bro == 0] = 1
+        little_bro = best_solution//2
+        little_bro[little_bro == 0] = 1
         new_population = [best_solution, little_bro]
         while len(new_population) < pop_size:
             parent1 = tournament_selection(population)
