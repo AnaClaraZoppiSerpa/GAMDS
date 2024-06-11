@@ -1,0 +1,80 @@
+inst 1:
+k1: 1000
+k2: 2000
+k3: 10
+min_mut = 0.05
+max_mut = 0.3
+
+diminishing mutation vários intervalo, prob quadrada
+
+4x4
+
+Achou AES imediatamente quase:
+[[3 1 1 2]
+ [1 1 2 3]
+ [1 2 3 1]
+ [2 3 1 1]]
+
+
+inst 2:
+k1: 1000
+k2: 2000
+k3: 10
+min_mut = 0.05
+max_mut = 0.3
+
+diminishing mutation vários intervalo, prob quadrada
+
+5x5
+
+Generation  36
+Melhor solução: [[5 5 1 2 1]
+ [5 1 2 1 5]
+ [1 2 1 5 5]
+ [2 1 5 5 1]
+ [1 5 5 1 2]]
+É MDS: True
+Custo: 105
+
+inst 3:
+k1: 1000
+k2: 2000
+k3: 10
+min_mut = 0.05
+max_mut = 0.3
+
+diminishing mutation vários intervalo, prob quadrada
+
+5x5, corrigi diminishing, little bro 2
+
+Generation  13
+Melhor solução: [[1 8 3 2 1]
+ [8 3 2 1 1]
+ [3 2 1 1 8]
+ [2 1 1 8 3]
+ [1 1 8 3 2]]
+É MDS: True
+Custo: 100
+XOR: 25, XTIME: 25
+
+Generation  20
+Melhor solução: [[1 5 3 2 1]
+ [5 3 2 1 1]
+ [3 2 1 1 5]
+ [2 1 1 5 3]
+ [1 1 5 3 2]]
+É MDS: True
+Custo: 90
+XOR: 30, XTIME: 20
+
+Generation  33
+Melhor solução: [[1 2 3 2 1]
+ [2 3 2 1 1]
+ [3 2 1 1 2]
+ [2 1 1 2 3]
+ [1 1 2 3 2]]
+É MDS: True
+Custo: 70
+XOR: 25, XTIME: 15
+
+
