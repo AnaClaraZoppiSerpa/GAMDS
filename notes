@@ -302,4 +302,19 @@ diminishing mutation vários intervalo, prob quadrada
   [ 4  1 13  2]
   [ 3  3 10  3]
   [ 1  9  5  2]]
+
+inst 8:
+k1: 1000
+k2: 2000
+k3: 10
+min_mut = 0.05
+max_mut = 0.3
+
+diminishing mutation vários intervalo, prob quadrada
+fieldarg = 4
+
+ [[1 2 3 3]
+ [2 5 1 3]
+ [3 1 1 2]
+ [1 1 2 1]]
   

@@ -13,7 +13,7 @@ k1 = 1000.0
 k2_0 = 2000.0
 k2 = 2000.0
 k3 = 10.0
-FIELD_ARG = 8  
+FIELD_ARG = 4  
 
 max_mut = 0.3
 min_mut = 0.05
@@ -146,7 +146,7 @@ def genetic_algorithm(pop_size, generations, matrix_size):
         print(mutation_rate)
 
         little_bro = diminish_mutation(best_solution)
-        little_bro = best_solution//2
+        #little_bro = best_solution//2
         little_bro[little_bro == 0] = 1
         new_population = [best_solution, little_bro]
         while len(new_population) < pop_size:
