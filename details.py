@@ -9,7 +9,7 @@ import numpy as np
         [2, 1, 1, 5, 3],
         [1, 1, 5, 3, 2]
     ])"""
-mat = gfm(np.array([1,2,3,2,1]))
+mat = gfm(np.array([1,1,12,51,2,3]))
 FIELD_ARG = 8
 
 print("Melhor solução: " + str(mat))

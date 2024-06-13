@@ -1,5 +1,6 @@
 import numpy as np
 import random
+from random import choice
 from typing import List
 from helpers.datasetDict import *
 from readonly import validIntegers, isMDS, combinedCost, existsInDataset, _matrix_xor_cost, _matrix_xtime_cost
@@ -15,7 +16,7 @@ k2 = 2000.0
 k3 = 10.0
 FIELD_ARG = 8  
 
-max_mut = 0.3
+max_mut = 0.7
 min_mut = 0.05
 
 def gfm(arr, right = True):
@@ -121,6 +122,41 @@ def diminish_mutation(A, limit_to_1 = False):
     #print(result)
     return result
 
+def mini_local_search(A, max_test = 10):
+    indexes = np.argsort(A)
+    best_fitness = fitness_function(A)
+    for i in range(len(indexes)-1, -1, -1):
+        index_max = indexes[i]
+        max_val = A[index_max]
+        a_next = np.copy(A)
+        for val in range(1, min(max_test+1,max_val)):
+            a_next[index_max] = val
+            fitness = fitness_function(a_next)
+            if fitness > best_fitness:
+                return a_next
+    """point1 = random.sample(range(len(A)), 1)[0]
+    p2Range = [i for i in range(len(A)) if i != point1]
+    print(p2Range)
+    random.shuffle(p2Range)
+    for point2 in p2Range:
+        a_next = np.copy(A)
+        a_next[point1], a_next[point2] = a_next[point2], a_next[point1]
+        fitness = fitness_function(a_next)
+        if fitness > best_fitness:
+            return a_next"""
+    a_shuffle = np.copy(A)
+    random.shuffle(a_shuffle)
+    indexes = np.argsort(a_shuffle)
+    for i in range(len(indexes)-1, -1, -1):
+        index_max = indexes[i]
+        max_val = a_shuffle[index_max]
+        a_next = np.copy(a_shuffle)
+        for val in range(1, min(max_test+1,max_val)):
+            a_next[index_max] = val
+            fitness = fitness_function(a_next)
+            if fitness >= best_fitness:
+                return a_next
+    return a_shuffle
 # def fitness_function(matrix):
 #     checker_result = isMDS(matrix, FIELD_ARG)
 #     if checker_result.result:
@@ -137,6 +173,34 @@ def diminish_mutation(A, limit_to_1 = False):
 def tournament_selection(population, k=3):
     return max(random.sample(population, k), key=fitness_function)
 
+"""def stochastic_universal_sampling(population, num_offspring):
+
+    fitnesses = np.vectorize(fitness_function)(population)
+    # Calculate the total fitness
+    total_fitness = np.sum(fitnesses)
+    
+    # Determine the distance between pointers
+    pointer_distance = total_fitness / num_offspring
+    
+    # Select a random starting point
+    start_point = np.random.uniform(0, pointer_distance)
+    
+    # Create pointers
+    pointers = [start_point + i * pointer_distance for i in range(num_offspring)]
+    
+    # Traverse the population to select individuals
+    selected_indices = []
+    cumulative_fitness = 0.0
+    current_member = 0
+    
+    for pointer in pointers:
+        while cumulative_fitness + fitnesses[current_member] < pointer:
+            cumulative_fitness += fitnesses[current_member]
+            current_member += 1
+        selected_indices.append(current_member)
+    
+    return selected_indices"""
+
 def two_point_crossover(parent1, parent2):
     point1, point2 = sorted(random.sample(range(len(parent1)), 2))
     child = np.copy(parent1)
@@ -145,9 +209,29 @@ def two_point_crossover(parent1, parent2):
     return child
 
 def mutate(matrix):
-    i = random.randint(0, len(matrix)-1)
+    """i = random.randint(0, len(matrix)-1)
     valid_numbers = validIntegers(FIELD_ARG)
-    matrix[i] = random.choice(valid_numbers[1:])
+    matrix[i] = random.choice(valid_numbers[1:])"""
+    maxPos = max(validIntegers(FIELD_ARG))
+    for i in range(len(matrix)):
+        if bool(random.getrandbits(1)):
+            continue
+        if matrix[i] == 1:
+            matrix[i] += 1
+        elif matrix[i] == maxPos:
+            matrix[i] -= 1
+        elif bool(random.getrandbits(1)):
+            matrix[i] += 1
+        else:
+            matrix[i] -= 1
+    if bool(random.getrandbits(1)):
+        return matrix
+    point1, point2 = random.sample(range(len(matrix)), 2)
+    matrix[point1], matrix[point2] = matrix[point2], matrix[point1]
+
+    return matrix
+
+
     return matrix
 
 def genetic_algorithm(pop_size, generations, matrix_size):
@@ -173,8 +257,9 @@ def genetic_algorithm(pop_size, generations, matrix_size):
         #little_bro = best_solution//2
         #little_bro[little_bro == 0] = 1
         little_bro2 = diminish_mutation(best_solution,True)
-        print(little_bro,little_bro2)
-        new_population = [best_solution, little_bro, little_bro2]
+        little_bro3 = mini_local_search(best_solution)
+        print(little_bro,little_bro2, little_bro3)
+        new_population = [best_solution, little_bro, little_bro2, little_bro3]
         while len(new_population) < pop_size:
             parent1 = tournament_selection(population)
             parent2 = tournament_selection(population)
@@ -195,5 +280,5 @@ def genetic_algorithm(pop_size, generations, matrix_size):
     return best_solution
 
 if __name__ == "__main__":
-    best_matrix = genetic_algorithm(10, 10000, 6)
+    best_matrix = genetic_algorithm(10, 10000, 7)
     print("Melhor matriz encontrada: ", best_matrix, " é mds: ", isMDS(best_matrix, FIELD_ARG).result, " já foi encontrada? ", existsInDataset(best_matrix).exists, " nome: ", existsInDataset(best_matrix).name)
