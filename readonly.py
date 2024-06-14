@@ -4,6 +4,7 @@ from helpers.finiteFieldHelper import _is_mds, _int_to_gf_mat
 from helpers.datasetHelper import _exists_in_dataset
 from helpers.datasetDict import *
 import galois
+import numpy as np
 
 # Wrapper for the return value of checking if a matrix is MDS or not.
 # result: bool - True if the matrix is MDS, False otherwise.
@@ -142,11 +143,46 @@ def baselineXtOnlyCost(dimension: int) -> BaselineResult:
 # Check if a matrix is already present on the dataset of Ana's previous work or not.
 # Note that it returns an ExistsResult, to wrap the result.
 # This way you will know the ID of the matrix and will be able to ask Ana for more details if you have to.
+# def existsInDataset(intMatrix: List[List[int]]) -> ExistsResult:
+#     tuple = _exists_in_dataset(LOOKUP_DICT, intMatrix)
+#     tupleBool = tuple[0]
+#     tupleID = tuple[1]
+#     return ExistsResult(tupleBool, tupleID)
+
 def existsInDataset(intMatrix: List[List[int]]) -> ExistsResult:
-    tuple = _exists_in_dataset(LOOKUP_DICT, intMatrix)
-    tupleBool = tuple[0]
-    tupleID = tuple[1]
-    return ExistsResult(tupleBool, tupleID)
+    # Convert intMatrix to a numpy array for easier manipulation
+    np_matrix = np.array(intMatrix)
+    dic = LOOKUP_DICT
+    # Check for the original and its variations
+    variations = generate_variations(np_matrix)
+    for var in variations:
+        for id, stored_matrix in dic.items():
+            if _matrix_equals(stored_matrix, var.tolist()):
+                return ExistsResult(True, id)
+    return ExistsResult(False, None)
+
+def generate_variations(matrix: np.ndarray) -> List[np.ndarray]:
+    """Generate all relevant variations of the matrix."""
+    variations = []
+    variations.append(matrix)  # Original
+    variations.append(matrix.T)  # Transpose
+    # Add the inverse if the matrix is square and invertible
+    if matrix.shape[0] == matrix.shape[1]:
+        try:
+            inv = np.linalg.inv(matrix)
+            variations.append(inv)
+        except np.linalg.LinAlgError:
+            pass  # Not invertible, do not add
+    # Add rotations if needed
+    for k in range(1, 4):
+        variations.append(np.rot90(matrix, k))
+
+    return variations
+
+def _matrix_equals(mat1: List[List[int]], mat2: List[List[int]]) -> bool:
+    """Check if two matrices are equal."""
+    return np.array_equal(mat1, mat2)
+
 
 # Check if a given matrix is MDS.
 # Note that it returns a CheckerResult, to wrap the result.
