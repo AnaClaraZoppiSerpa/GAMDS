@@ -534,3 +534,142 @@ Incumbent: [[2 7 2 3 1 1]
 Custo: 138
 XOR: 48, XTIME: 30
 
+Nota-se uma tendência de às vezes gerar matrizes não-MDS em certas gerações.
+
+inst 14:
+
+busca local limitada a valores próximos, pode ir acima do valor atual.
+
+Generation  0
+Incumbent: [[11 11  5 12  1  4]
+ [11  5 12  1  4 11]
+ [ 5 12  1  4 11 11]
+ [12  1  4 11 11  5]
+ [ 1  4 11 11  5 12]
+ [ 4 11 11  5 12  1]]
+É MDS: True
+Custo: 300
+XOR: 66, XTIME: 78
+
+Generation  1
+Incumbent: [[1 5 4 2 6 1]
+ [5 4 2 6 1 1]
+ [4 2 6 1 1 5]
+ [2 6 1 1 5 4]
+ [6 1 1 5 4 2]
+ [1 1 5 4 2 6]]
+É MDS: True
+Custo: 168
+XOR: 42, XTIME: 42
+
+7x7 busca local 
+
+Melhor solução: [[1 3 2 4 2 3 1]
+ [3 2 4 2 3 1 1]
+ [2 4 2 3 1 1 3]
+ [4 2 3 1 1 3 2]
+ [2 3 1 1 3 2 4]
+ [3 1 1 3 2 4 2]
+ [1 1 3 2 4 2 3]]
+É MDS: True
+Custo: 182
+XOR: 56, XTIME: 42
+ 1 hora de busca local, não escala bem pra dim. alta.
+
+inst 15:
+
+ Inicia com valores aleatórios
+ busca local mini de filhos. índice aleatório.
+
+ Generation  0
+Incumbent: [[10  2  1  8  8  9 12]
+ [ 2  1  8  8  9 12 10]
+ [ 1  8  8  9 12 10  2]
+ [ 8  8  9 12 10  2  1]
+ [ 8  9 12 10  2  1  8]
+ [ 9 12 10  2  1  8  8]
+ [12 10  2  1  8  8  9]]
+É MDS: False
+Custo: 399
+XOR: 63, XTIME: 112
+
+Generation  1
+Incumbent: [[ 3  3  1  6 10  7  2]
+ [ 3  1  6 10  7  2  3]
+ [ 1  6 10  7  2  3  3]
+ [ 6 10  7  2  3  3  1]
+ [10  7  2  3  3  1  6]
+ [ 7  2  3  3  1  6 10]
+ [ 2  3  3  1  6 10  7]]
+É MDS: True
+Custo: 294
+XOR: 84, XTIME: 70
+
+Generation  2
+Incumbent: [[ 1 11  1  1  5 12  2]
+ [11  1  1  5 12  2  1]
+ [ 1  1  5 12  2  1 11]
+ [ 1  5 12  2  1 11  1]
+ [ 5 12  2  1 11  1  1]
+ [12  2  1 11  1  1  5]
+ [ 2  1 11  1  1  5 12]]
+É MDS: True
+Custo: 259
+XOR: 70, XTIME: 63
+
+Generation  4
+Incumbent: [[ 1  3  1  1  2 12  9]
+ [ 3  1  1  2 12  9  1]
+ [ 1  1  2 12  9  1  3]
+ [ 1  2 12  9  1  3  1]
+ [ 2 12  9  1  3  1  1]
+ [12  9  1  3  1  1  2]
+ [ 9  1  3  1  1  2 12]]
+É MDS: True
+Custo: 231
+XOR: 63, XTIME: 56
+
+Generation  7
+Incumbent: [[2 3 1 1 3 2 9]
+ [3 1 1 3 2 9 2]
+ [1 1 3 2 9 2 3]
+ [1 3 2 9 2 3 1]
+ [3 2 9 2 3 1 1]
+ [2 9 2 3 1 1 3]
+ [9 2 3 1 1 3 2]]
+É MDS: True
+Custo: 210
+XOR: 63, XTIME: 49
+
+Generation  11
+Incumbent: [[2 3 1 1 3 2 4]
+ [3 1 1 3 2 4 2]
+ [1 1 3 2 4 2 3]
+ [1 3 2 4 2 3 1]
+ [3 2 4 2 3 1 1]
+ [2 4 2 3 1 1 3]
+ [4 2 3 1 1 3 2]]
+É MDS: True
+Custo: 182
+XOR: 56, XTIME: 42
+
+inst 16:
+
+8x8
+
+não escala bem para 8x8
+XOR: 88, XTIME: 88
+Melhor solução da geração: [[ 1  2 13  8  4  3 10  1]
+ [ 2 13  8  4  3 10  1  1]
+ [13  8  4  3 10  1  1  2]
+ [ 8  4  3 10  1  1  2 13]
+ [ 4  3 10  1  1  2 13  8]
+ [ 3 10  1  1  2 13  8  4]
+ [10  1  1  2 13  8  4  3]
+ [ 1  1  2 13  8  4  3 10]]
+É MDS: True
+Custo: 400
+XOR: 88, XTIME: 104
+
+
+revertendo pra um sistema mais antigo

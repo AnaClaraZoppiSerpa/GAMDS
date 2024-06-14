@@ -125,28 +125,36 @@ def diminish_mutation(A, limit_to_1 = False):
     #print(result)
     return result
 
-def mini_local_search(A, max_test = 10):
-    index_max = np.argmax(A)
-    max_val = A[index_max]
+def mini_local_search(A, max_test = 12, random_order = False):
+    if random_order:
+        index_max = random.randint(0,len(A)-1)
+    else:
+        index_max = np.argmax(A)
+
+    max_val = min(max_test, A[index_max] + 1)
+    min_val = 1#max(1,A[index_max] - 3)
+    a_next = np.copy(A)
+    
     best_fitness = fitness_function(A)
     a_next = np.copy(A)
-    for val in range(1, min(max_test+1,max_val)):
+    for val in range(min_val, max_val+1):
         a_next[index_max] = val
         fitness = fitness_function(a_next)
         if fitness > best_fitness:
             return fitness, a_next
     return best_fitness, A
 
-def local_search(A, max_test = 10, random_order = False):
+def local_search(A, max_test = 12, random_order = False):
     indexes = np.argsort(A)
     if random_order:
         random.shuffle(indexes)
     best_fitness = fitness_function(A)
     for i in range(len(indexes)-1, -1, -1):
         index_max = indexes[i]
-        max_val = A[index_max]
+        max_val = min(max_test, A[index_max] + 1)
+        min_val = 1#max(1,A[index_max] - 3)
         a_next = np.copy(A)
-        for val in range(1, min(max_test+1,max_val)):
+        for val in range(min_val, max_val+1):
             a_next[index_max] = val
             fitness = fitness_function(a_next)
             if fitness > best_fitness:
@@ -168,9 +176,10 @@ def local_search(A, max_test = 10, random_order = False):
         random.shuffle(indexes)
     for i in range(len(indexes)-1, -1, -1):
         index_max = indexes[i]
-        max_val = a_shuffle[index_max]
+        max_val = min(max_test, a_shuffle[index_max] + 3)
+        min_val = max(1,a_shuffle[index_max] - 3)
         a_next = np.copy(a_shuffle)
-        for val in range(1, min(max_test+1,max_val)):
+        for val in range(min_val, max_val+1):
             a_next[index_max] = val
             fitness = fitness_function(a_next)
             if fitness >= best_fitness:
@@ -264,7 +273,7 @@ def full_local_search(A, max_test = 10):
 
 def genetic_algorithm(pop_size, generations, matrix_size):
     #population = [full_local_search(a) for a in initialize_population(pop_size, matrix_size, max_value=12)]
-    population = [(fitness_function(a),a) for a in initialize_population(pop_size, matrix_size, max_value=12)]
+    population = [(fitness_function(a),a) for a in initialize_population(pop_size, matrix_size, max_value=15)]
 
     incumbent = None
     incumbent_cost = np.inf
@@ -322,19 +331,19 @@ def genetic_algorithm(pop_size, generations, matrix_size):
             child = two_point_crossover(parent1, parent2)
             if random.random() < mutation_rate:
                 child = mutate(child)
-            child_pair = local_search(child, random_order=True)
+            child_pair = mini_local_search(child, random_order=True, max_test=15)
             new_population.append(child_pair)
         
         population = new_population
         print("New population ", population)
         
     
-    best_solution = max(population, key=fitness_function)
+    best_solution = incumbent
     print("Melhor solução: " + str(best_solution))
-    print("É MDS: " + str(isMDS(best_solution, FIELD_ARG).result))
-    print("Custo: " + str(calculate_c(best_solution)))
-    return best_solution
+    print("É MDS: " + str(isMDS(gfm(best_solution), FIELD_ARG).result))
+    print("Custo: " + str(calculate_c(gfm(best_solution))))
+    return gfm(best_solution)
 
 if __name__ == "__main__":
-    best_matrix = genetic_algorithm(10, 10000, 6)
+    best_matrix = genetic_algorithm(10, 10000, 8)
     print("Melhor matriz encontrada: ", best_matrix, " é mds: ", isMDS(best_matrix, FIELD_ARG).result, " já foi encontrada? ", existsInDataset(best_matrix).exists, " nome: ", existsInDataset(best_matrix).name)
