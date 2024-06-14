@@ -20,6 +20,8 @@ max_mut = 0.7
 min_mut = 0.05
 
 def gfm(arr, right = True):
+    if arr is None:
+        return []
     n = len(arr)
     matrix = np.zeros((n,n), dtype=arr.dtype)
     mult = 1
@@ -85,16 +87,17 @@ def fitness_function(A_line, verbose = False, direct = False):
     else:
         return k2 / (1 + c)
 
-def generate_random_matrix(size):
+def generate_random_matrix(size, max_value = 12):
     # Retorna uma matriz NumPy em vez de uma lista de listas
-    valid_numbers = validIntegers(FIELD_ARG)
+    valid_numbers = [i for i in validIntegers(FIELD_ARG) if i <= max_value]
     return np.array(random.choices(valid_numbers[1:], k=size))
 
-def initialize_population(pop_size, matrix_size):
-    return [generate_random_matrix(matrix_size) for _ in range(pop_size)]
+def initialize_population(pop_size, matrix_size, max_value = 12):
+    return [generate_random_matrix(matrix_size, max_value=max_value) for _ in range(pop_size)]
 
 def variety_checker(population):
-    population = np.array(population)
+    
+    population = np.array([j for (i,j) in population])
     vectorized_children = population.reshape(population.shape[0], -1)
 
     print(vectorized_children)
@@ -123,7 +126,21 @@ def diminish_mutation(A, limit_to_1 = False):
     return result
 
 def mini_local_search(A, max_test = 10):
+    index_max = np.argmax(A)
+    max_val = A[index_max]
+    best_fitness = fitness_function(A)
+    a_next = np.copy(A)
+    for val in range(1, min(max_test+1,max_val)):
+        a_next[index_max] = val
+        fitness = fitness_function(a_next)
+        if fitness > best_fitness:
+            return fitness, a_next
+    return best_fitness, A
+
+def local_search(A, max_test = 10, random_order = False):
     indexes = np.argsort(A)
+    if random_order:
+        random.shuffle(indexes)
     best_fitness = fitness_function(A)
     for i in range(len(indexes)-1, -1, -1):
         index_max = indexes[i]
@@ -133,7 +150,7 @@ def mini_local_search(A, max_test = 10):
             a_next[index_max] = val
             fitness = fitness_function(a_next)
             if fitness > best_fitness:
-                return a_next
+                return fitness, a_next
     """point1 = random.sample(range(len(A)), 1)[0]
     p2Range = [i for i in range(len(A)) if i != point1]
     print(p2Range)
@@ -147,6 +164,8 @@ def mini_local_search(A, max_test = 10):
     a_shuffle = np.copy(A)
     random.shuffle(a_shuffle)
     indexes = np.argsort(a_shuffle)
+    if random_order:
+        random.shuffle(indexes)
     for i in range(len(indexes)-1, -1, -1):
         index_max = indexes[i]
         max_val = a_shuffle[index_max]
@@ -155,8 +174,8 @@ def mini_local_search(A, max_test = 10):
             a_next[index_max] = val
             fitness = fitness_function(a_next)
             if fitness >= best_fitness:
-                return a_next
-    return a_shuffle
+                return fitness, a_next
+    return best_fitness, A
 # def fitness_function(matrix):
 #     checker_result = isMDS(matrix, FIELD_ARG)
 #     if checker_result.result:
@@ -171,7 +190,7 @@ def mini_local_search(A, max_test = 10):
 #         return 0
 
 def tournament_selection(population, k=3):
-    return max(random.sample(population, k), key=fitness_function)
+    return max(random.sample(population, k), key = lambda x: x[0])#, key=fitness_function)
 
 """def stochastic_universal_sampling(population, num_offspring):
 
@@ -234,17 +253,53 @@ def mutate(matrix):
 
     return matrix
 
+def full_local_search(A, max_test = 10):
+    old_A = np.copy(A)
+    while True:
+        fitness, new_A = local_search(old_A, max_test=max_test)
+        if np.array_equal(new_A, old_A):
+            print("best: " + str(new_A) + ", MDS? "+ str(isMDS(gfm(new_A),FIELD_ARG).result)+ ", cost: "+ str(calculate_c(gfm(new_A))))
+            return fitness, new_A
+        old_A = new_A
+
 def genetic_algorithm(pop_size, generations, matrix_size):
-    population = initialize_population(pop_size, matrix_size)
+    #population = [full_local_search(a) for a in initialize_population(pop_size, matrix_size, max_value=12)]
+    population = [(fitness_function(a),a) for a in initialize_population(pop_size, matrix_size, max_value=12)]
+
+    incumbent = None
+    incumbent_cost = np.inf
+    inc_is_mds = False
+    inc_xor = np.inf
+    inc_xtime = np.inf
+
     print("Initial population ", population)
     for _ in range(generations):
         print("Generation ", _)
-        best_solution = max(population, key=fitness_function)
+        _, best_solution = max(population, key = lambda x: x[0])
+
         best_solution_mat = gfm(best_solution)
-        print("Melhor solução: " + str(best_solution_mat))
-        print("É MDS: " + str(isMDS(best_solution_mat, FIELD_ARG).result))
-        print("Custo: " + str(calculate_c(best_solution_mat)))
-        print("XOR: "+ str(_matrix_xor_cost(best_solution_mat, FIELD_ARG)) + ", XTIME: "+ str(_matrix_xtime_cost(best_solution_mat, FIELD_ARG)))
+
+        best_cost = calculate_c(best_solution_mat)
+        best_is_mds = isMDS(best_solution_mat, FIELD_ARG).result
+        best_xor = _matrix_xor_cost(best_solution_mat, FIELD_ARG)
+        best_xtime = _matrix_xtime_cost(best_solution_mat, FIELD_ARG)
+
+        if best_cost < incumbent_cost and (best_is_mds or not inc_is_mds):
+            incumbent = best_solution
+            incumbent_cost = best_cost
+            inc_is_mds = best_is_mds
+            inc_xor = best_xor
+            inc_xtime = best_xtime
+
+        print("Incumbent: "+ str(gfm(incumbent)))
+        print("É MDS: " + str(inc_is_mds))
+        print("Custo: " + str(incumbent_cost))
+        print("XOR: "+ str(inc_xor) + ", XTIME: "+ str(inc_xtime))
+
+        print("Melhor solução da geração: " + str(best_solution_mat))
+        print("É MDS: " + str(best_is_mds))
+        print("Custo: " + str(best_cost))
+        print("XOR: "+ str(best_xor) + ", XTIME: "+ str(best_xtime))
         print("Fitness: " + str(fitness_function(best_solution, True)))
 
         equal_values = variety_checker(population)
@@ -253,21 +308,22 @@ def genetic_algorithm(pop_size, generations, matrix_size):
         mutation_rate = min_mut + (max_mut-min_mut)*((equal_values-min_equal)/(max_equal-min_equal))**2
         print(mutation_rate)
 
-        little_bro = diminish_mutation(best_solution)
+        #little_bro = diminish_mutation(best_solution)
         #little_bro = best_solution//2
         #little_bro[little_bro == 0] = 1
-        little_bro2 = diminish_mutation(best_solution,True)
-        little_bro3 = mini_local_search(best_solution)
-        print(little_bro,little_bro2, little_bro3)
-        new_population = [best_solution, little_bro, little_bro2, little_bro3]
+        #little_bro2 = diminish_mutation(best_solution,True)
+        new_population = []#local_search(best_solution)]
+        #print("start_fit")
+        #fitnesses = [(fitness_function(individual), individual) for individual in population]
+        #print("end_fit")
         while len(new_population) < pop_size:
-            parent1 = tournament_selection(population)
-            parent2 = tournament_selection(population)
+            _, parent1 = tournament_selection(population)
+            _, parent2 = tournament_selection(population)
             child = two_point_crossover(parent1, parent2)
             if random.random() < mutation_rate:
                 child = mutate(child)
-            if(isMDS(gfm(child), FIELD_ARG)):
-                new_population.append(child)
+            child_pair = local_search(child, random_order=True)
+            new_population.append(child_pair)
         
         population = new_population
         print("New population ", population)
@@ -280,5 +336,5 @@ def genetic_algorithm(pop_size, generations, matrix_size):
     return best_solution
 
 if __name__ == "__main__":
-    best_matrix = genetic_algorithm(10, 10000, 7)
+    best_matrix = genetic_algorithm(10, 10000, 6)
     print("Melhor matriz encontrada: ", best_matrix, " é mds: ", isMDS(best_matrix, FIELD_ARG).result, " já foi encontrada? ", existsInDataset(best_matrix).exists, " nome: ", existsInDataset(best_matrix).name)

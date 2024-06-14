@@ -314,3 +314,223 @@ Melhor solução: [[1 2 7 2 3 1]
 É MDS: True
 Custo: 138
 XOR: 48, XTIME: 30
+
+
+inst 10:
+k1: 1000
+k2: 2000
+k3: 10
+min_mut = 0.05
+max_mut = 0.7
+
+diminishing mutation vários intervalo, prob quadrada
+
+6x6, corrigi diminishing, little bro 2
+
+local search first improving testa varios, mutação nova com troca de posições
+
+local search faz shuffle após chegar no minimo local e tenta fazer local search no shuffle
+
+7x7
+
+Generation  6
+Melhor solução: [[6 4 2 4 6 1 1]
+ [4 2 4 6 1 1 6]
+ [2 4 6 1 1 6 4]
+ [4 6 1 1 6 4 2]
+ [6 1 1 6 4 2 4]
+ [1 1 6 4 2 4 6]
+ [1 6 4 2 4 6 1]]
+É MDS: True
+Custo: 245
+XOR: 56, XTIME: 63
+
+Generation  36
+Melhor solução: [[1 4 1 2 6 5 1]
+ [4 1 2 6 5 1 1]
+ [1 2 6 5 1 1 4]
+ [2 6 5 1 1 4 1]
+ [6 5 1 1 4 1 2]
+ [5 1 1 4 1 2 6]
+ [1 1 4 1 2 6 5]]
+É MDS: True
+Custo: 203
+XOR: 56, XTIME: 49
+
+Generation  195
+Melhor solução: [[1 4 1 2 6 5 1]
+ [4 1 2 6 5 1 1]
+ [1 2 6 5 1 1 4]
+ [2 6 5 1 1 4 1]
+ [6 5 1 1 4 1 2]
+ [5 1 1 4 1 2 6]
+ [1 1 4 1 2 6 5]]
+É MDS: True
+Custo: 203
+XOR: 56, XTIME: 49
+
+inst 11:
+k1: 1000
+k2: 2000
+k3: 10
+min_mut = 0.05
+max_mut = 0.7
+
+diminishing mutation vários intervalo, prob quadrada
+
+6x6, corrigi diminishing, little bro 2
+
+local search first improving testa varios, mutação nova com troca de posições
+
+local search faz shuffle após chegar no minimo local e tenta fazer local search no shuffle
+
+fixed tournament
+
+6x6
+
+Generation  24
+Melhor solução: [[2 1 3 4 4 1]
+ [1 3 4 4 1 2]
+ [3 4 4 1 2 1]
+ [4 4 1 2 1 3]
+ [4 1 2 1 3 4]
+ [1 2 1 3 4 4]]
+É MDS: True
+Custo: 144
+XOR: 36, XTIME: 36
+
+=================================================================
+Importante
+
+gerei pop. inicial com busca local intensa pra cada indivíduo
+
+resultado inicial já é melhor do que resultado do GA.
+
+Fs in the chat boys
+
+inst 12:
+k1: 1000
+k2: 2000
+k3: 10
+min_mut = 0.05
+max_mut = 0.7
+
+diminishing mutation vários intervalo, prob quadrada
+
+6x6, corrigi diminishing, little bro 2
+
+local search first improving testa varios, mutação nova com troca de posições
+
+local search faz shuffle após chegar no minimo local e tenta fazer local search no shuffle
+
+fixed tournament
+
+Generation  0
+Melhor solução: [[1 2 7 2 3 1]
+ [2 7 2 3 1 1]
+ [7 2 3 1 1 2]
+ [2 3 1 1 2 7]
+ [3 1 1 2 7 2]
+ [1 1 2 7 2 3]]
+É MDS: True
+Custo: 138
+XOR: 48, XTIME: 30
+
+Achando muito rápido um mínimo local forte:
+
+Generation  0
+Incumbent: [[2 1 1 3 2 7]
+ [1 1 3 2 7 2]
+ [1 3 2 7 2 1]
+ [3 2 7 2 1 1]
+ [2 7 2 1 1 3]
+ [7 2 1 1 3 2]]
+É MDS: True
+Custo: 138
+XOR: 48, XTIME: 30
+
+inst 13:
+
+removi busca local inicial
+melhor da geração passada não é adicionado à geração futura
+busca local first-improving ordem aleatória a cada criança gerada
+
+melhorando, mas não necessariamente mais rápido do que a busca local pura.
+
+Generation  0
+Incumbent: [[ 2 11  4  6 11  1]
+ [11  4  6 11  1  2]
+ [ 4  6 11  1  2 11]
+ [ 6 11  1  2 11  4]
+ [11  1  2 11  4  6]
+ [ 1  2 11  4  6 11]]
+É MDS: False
+Custo: 258
+XOR: 60, XTIME: 66
+
+Generation  1
+Incumbent: [[ 2  3  4 12  5  1]
+ [ 3  4 12  5  1  2]
+ [ 4 12  5  1  2  3]
+ [12  5  1  2  3  4]
+ [ 5  1  2  3  4 12]
+ [ 1  2  3  4 12  5]]
+É MDS: True
+Custo: 210
+XOR: 48, XTIME: 54
+
+Generation  2
+Incumbent: [[ 1  2  3  3 10  2]
+ [ 2  3  3 10  2  1]
+ [ 3  3 10  2  1  2]
+ [ 3 10  2  1  2  3]
+ [10  2  1  2  3  3]
+ [ 2  1  2  3  3 10]]
+É MDS: True
+Custo: 174
+XOR: 48, XTIME: 42
+
+Generation  3
+Incumbent: [[ 1  3  3 11  1  2]
+ [ 3  3 11  1  2  1]
+ [ 3 11  1  2  1  3]
+ [11  1  2  1  3  3]
+ [ 1  2  1  3  3 11]
+ [ 2  1  3  3 11  1]]
+É MDS: True
+Custo: 162
+XOR: 54, XTIME: 36
+
+Generation  5
+Incumbent: [[3 1 1 8 3 2]
+ [1 1 8 3 2 3]
+ [1 8 3 2 3 1]
+ [8 3 2 3 1 1]
+ [3 2 3 1 1 8]
+ [2 3 1 1 8 3]]
+É MDS: True
+Custo: 150
+XOR: 42, XTIME: 36
+
+Generation  6
+Incumbent: [[2 8 2 3 1 1]
+ [8 2 3 1 1 2]
+ [2 3 1 1 2 8]
+ [3 1 1 2 8 2]
+ [1 1 2 8 2 3]
+ [1 2 8 2 3 1]]
+É MDS: True
+Custo: 144
+XOR: 36, XTIME: 36
+
+Generation  7
+Incumbent: [[2 7 2 3 1 1]
+ [7 2 3 1 1 2]
+ [2 3 1 1 2 7]
+ [3 1 1 2 7 2]
+ [1 1 2 7 2 3]
+ [1 2 7 2 3 1]]
+É MDS: True
+Custo: 138
+XOR: 48, XTIME: 30
+
