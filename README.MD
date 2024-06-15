@@ -1,5 +1,5 @@
 # Context
-This repo is based in the (Diffusion Studies Supporting Codes repo)[https://github.com/AnaClaraZoppiSerpa/diffusion-studies-supporting-codes]. It better modularizes the functions related to finite field arithmetic, MDS property checker, among others, to help implementing MDS matrix search strategies and evaluate them decoupling the MDS finding challenge from the cryptography related code. 
+This repo is based in the [Diffusion Studies Supporting Codes repo](https://github.com/AnaClaraZoppiSerpa/diffusion-studies-supporting-codes). It better modularizes the functions related to finite field arithmetic, MDS property checker, among others, to help implementing MDS matrix search strategies and evaluate them decoupling the MDS finding challenge from the cryptography related code. 
 
 The preliminary work started with a master thesis by @AnaClaraZoppiSerpa in 2023. This repo continues it by focusing strictly on the combinatorial challenge of finding MDS matrices, with @GiKerche and @fingerson taking on the challenge for the MO824 (Topics in Combinatorial Optimization) subject at UNICAMP.
 
