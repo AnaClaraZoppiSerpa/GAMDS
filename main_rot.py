@@ -347,5 +347,5 @@ def genetic_algorithm(pop_size, generations, matrix_size):
     return gfm(best_solution)
 
 if __name__ == "__main__":
-    best_matrix = genetic_algorithm(10, 10000, 8)
+    best_matrix = genetic_algorithm(10, 10000, 2)
     print("Melhor matriz encontrada: ", best_matrix, " é mds: ", isMDS(best_matrix, FIELD_ARG).result, " já foi encontrada? ", existsInDataset(best_matrix).exists, " nome: ", existsInDataset(best_matrix).name)

@@ -13,7 +13,7 @@ k1 = 1000.0
 k2_0 = 2000.0
 k2 = 2000.0
 k3 = 10.0
-FIELD_ARG = 4  
+FIELD_ARG = 8  
 
 max_mut = 0.3
 min_mut = 0.05
