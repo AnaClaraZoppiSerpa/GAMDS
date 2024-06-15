@@ -13,7 +13,7 @@ from helpers.countsHelper import _matrix_xtime_cost, _matrix_xor_cost
 k1 = 1000.0
 k2_0 = 2000.0
 k2 = 2000.0
-k3 = 10.0
+k3 = 100.0
 FIELD_ARG = 8  
 
 max_mut = 0.7
@@ -284,7 +284,7 @@ def genetic_algorithm(pop_size, generations, matrix_size):
     print("Initial population ", population)
     for _ in range(generations):
         print("Generation ", _)
-        _, best_solution = max(population, key = lambda x: x[0])
+        best_fitness, best_solution = max(population, key = lambda x: x[0])
 
         best_solution_mat = gfm(best_solution)
 
@@ -293,7 +293,7 @@ def genetic_algorithm(pop_size, generations, matrix_size):
         best_xor = _matrix_xor_cost(best_solution_mat, FIELD_ARG)
         best_xtime = _matrix_xtime_cost(best_solution_mat, FIELD_ARG)
 
-        if best_cost < incumbent_cost and (best_is_mds or not inc_is_mds):
+        if (best_is_mds and not inc_is_mds) or (best_cost < incumbent_cost and (best_is_mds or not inc_is_mds)):
             incumbent = best_solution
             incumbent_cost = best_cost
             inc_is_mds = best_is_mds
@@ -309,7 +309,7 @@ def genetic_algorithm(pop_size, generations, matrix_size):
         print("É MDS: " + str(best_is_mds))
         print("Custo: " + str(best_cost))
         print("XOR: "+ str(best_xor) + ", XTIME: "+ str(best_xtime))
-        print("Fitness: " + str(fitness_function(best_solution, True)))
+        print("Fitness: " + str(best_fitness))
 
         equal_values = variety_checker(population)
         max_equal = pop_size*matrix_size
@@ -321,7 +321,7 @@ def genetic_algorithm(pop_size, generations, matrix_size):
         #little_bro = best_solution//2
         #little_bro[little_bro == 0] = 1
         #little_bro2 = diminish_mutation(best_solution,True)
-        new_population = []#local_search(best_solution)]
+        new_population = [local_search(best_solution)]
         #print("start_fit")
         #fitnesses = [(fitness_function(individual), individual) for individual in population]
         #print("end_fit")
@@ -331,7 +331,9 @@ def genetic_algorithm(pop_size, generations, matrix_size):
             child = two_point_crossover(parent1, parent2)
             if random.random() < mutation_rate:
                 child = mutate(child)
-            child_pair = mini_local_search(child, random_order=True, max_test=15)
+                child_pair = mini_local_search(child, random_order=True, max_test=15)
+            else:
+                child_pair = (fitness_function(child), child)
             new_population.append(child_pair)
         
         population = new_population
